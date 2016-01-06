@@ -1,0 +1,10 @@
+D:\GIT_GLOBAL\GABRIEL.GRECO\Codegasm\Test App 6 - Hard Drive LED\HDDLED\bin\Debug\HDDLED.exe.config
+D:\GIT_GLOBAL\GABRIEL.GRECO\Codegasm\Test App 6 - Hard Drive LED\HDDLED\bin\Debug\HDD_Busy.ico
+D:\GIT_GLOBAL\GABRIEL.GRECO\Codegasm\Test App 6 - Hard Drive LED\HDDLED\bin\Debug\HDD_Idle.ico
+D:\GIT_GLOBAL\GABRIEL.GRECO\Codegasm\Test App 6 - Hard Drive LED\HDDLED\bin\Debug\HDDLED.exe
+D:\GIT_GLOBAL\GABRIEL.GRECO\Codegasm\Test App 6 - Hard Drive LED\HDDLED\bin\Debug\HDDLED.pdb
+D:\GIT_GLOBAL\GABRIEL.GRECO\Codegasm\Test App 6 - Hard Drive LED\HDDLED\obj\Debug\HDDLED.csprojResolveAssemblyReference.cache
+D:\GIT_GLOBAL\GABRIEL.GRECO\Codegasm\Test App 6 - Hard Drive LED\HDDLED\obj\Debug\HDDLED.Properties.Resources.resources
+D:\GIT_GLOBAL\GABRIEL.GRECO\Codegasm\Test App 6 - Hard Drive LED\HDDLED\obj\Debug\HDDLED.csproj.GenerateResource.Cache
+D:\GIT_GLOBAL\GABRIEL.GRECO\Codegasm\Test App 6 - Hard Drive LED\HDDLED\obj\Debug\HDDLED.exe
+D:\GIT_GLOBAL\GABRIEL.GRECO\Codegasm\Test App 6 - Hard Drive LED\HDDLED\obj\Debug\HDDLED.pdb

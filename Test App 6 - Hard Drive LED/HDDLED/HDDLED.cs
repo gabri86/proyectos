@@ -16,7 +16,13 @@ namespace HDDLED
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new InvisibleForm());
+            //Application.Run(new InvisibleForm());
+            using(ProcessIcon pi = new ProcessIcon())
+            {
+                pi.Display();
+
+                Application.Run();
+            }
         }
     }
 }

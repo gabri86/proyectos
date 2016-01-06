@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Management;
-using System.Management.Instrumentation;
-using System.Collections.Specialized;
 using System.Threading;
 
 namespace HDDLED
 {
-    public partial class InvisibleForm : Form
+    class ProcessIcon : IDisposable
     {
         #region Global Variables
         NotifyIcon hddNotifyIcon;
@@ -24,23 +16,33 @@ namespace HDDLED
         #endregion
 
         #region Main Form (entry point)
-        public InvisibleForm()
+        public ProcessIcon()
         {
-            InitializeComponent();
-
             // Load icons from files into objects
             busyIcon = new Icon("HDD_Busy.ico");
             idleIcon = new Icon("HDD_Idle.ico");
-            
+        }
+
+        /// <summary>
+        /// Abort the thread and dispose de icon tray
+        /// </summary>
+        public void Dispose()
+        {
+            hddInfoWorkerThread.Abort();
+            hddNotifyIcon.Dispose();
+        }
+        
+        public void Display()
+        {
             // Create notify icons and assign idle icon and show it
             hddNotifyIcon = new NotifyIcon();
             hddNotifyIcon.Icon = idleIcon;
             hddNotifyIcon.Visible = true;
 
             // Create all context menu items and add them to notification tray icon
-            MenuItem progNameMenuItem = new MenuItem("Hard Drive LED v1.0 BETA by: Barnacules");
+            MenuItem progNameMenuItem = new MenuItem("HDD LED v1.0 BETA");
             MenuItem breakMenuItem = new MenuItem("-");
-            MenuItem quitMenuItem = new MenuItem("Quit");
+            MenuItem quitMenuItem = new MenuItem("Salir");
             ContextMenu contextMenu = new ContextMenu();
             contextMenu.MenuItems.Add(progNameMenuItem);
             contextMenu.MenuItems.Add(breakMenuItem);
@@ -49,12 +51,7 @@ namespace HDDLED
 
             // Wire up quit button to close application
             quitMenuItem.Click += quitMenuItem_Click;
-
-            // 
-            //  Hide the form because we don't need it, this is a notification tray application
-            //
-            this.WindowState = FormWindowState.Minimized;
-            this.ShowInTaskbar = false;
+            
 
             // Start worker thread that pulls HDD activity
             hddInfoWorkerThread = new Thread(new ThreadStart(HddActivityThread));
@@ -70,9 +67,7 @@ namespace HDDLED
         /// <param name="e"></param>
         void quitMenuItem_Click(object sender, EventArgs e)
         {
-            hddInfoWorkerThread.Abort();
-            hddNotifyIcon.Dispose();
-            this.Close();
+            Application.Exit();
         }
         #endregion
 
@@ -91,12 +86,12 @@ namespace HDDLED
                 {
                     // Connect to the drive performance instance 
                     ManagementObjectCollection driveDataClassCollection = driveDataClass.GetInstances();
-                    foreach( ManagementObject obj in driveDataClassCollection)
+                    foreach (ManagementObject obj in driveDataClassCollection)
                     {
                         // Only process the _Total instance and ignore all the indevidual instances
-                        if( obj["Name"].ToString() == "_Total")
+                        if (obj["Name"].ToString() == "_Total")
                         {
-                            if( Convert.ToUInt64(obj["DiskBytesPersec"]) > 0 )
+                            if (Convert.ToUInt64(obj["DiskBytesPersec"]) > 0)
                             {
                                 // Show busy icon
                                 hddNotifyIcon.Icon = busyIcon;
@@ -112,7 +107,8 @@ namespace HDDLED
                     // Sleep for 10th of millisecond 
                     Thread.Sleep(100);
                 }
-            } catch( ThreadAbortException tbe )
+            }
+            catch (ThreadAbortException tbe)
             {
                 driveDataClass.Dispose();
                 // Thead was aborted
